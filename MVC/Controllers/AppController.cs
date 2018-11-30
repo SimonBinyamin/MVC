@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace MVC.Controllers
 {
@@ -19,9 +20,29 @@ namespace MVC.Controllers
                 new App {AppId=2, Name="hejhej", Desc="sadsd"}
             }
             ;
-
-
             return View(apps);
         }
+
+                
+        public ActionResult PostApp()
+        {
+
+            return View();
+        }
+        
+        [HttpPost]
+        public ActionResult PostApp0(App app)
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Delete(App app)
+        {
+
+            return View();
+        }
+
     }
 }
