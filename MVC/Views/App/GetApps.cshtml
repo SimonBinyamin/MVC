@@ -1,0 +1,17 @@
+﻿@using MVC.Models
+@model List<App>
+
+@{
+    ViewBag.Title = "GetApps";
+}
+
+<h2>GetApps</h2>
+
+
+    @foreach (var app in @Model)
+    {
+
+        <p>@app.Desc</p>
+    }
+
+
