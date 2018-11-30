@@ -6,35 +6,33 @@ using System.Web;
 using System.Web.Mvc;
 using System.Collections;
 using System.Threading.Tasks;
+using MVC.Services;
 
 namespace MVC.Controllers
 {
     public class AppController : Controller
     {
-        // GET: App/GetApps
-        public ActionResult GetApps()
+        Repo repo = new Repo();
+
+
+        public ActionResult Index()
         {
-            List<App> apps = new List<App>()
-            {
-                new App {AppId=1, Name="xv", Desc="hej"},
-                new App {AppId=2, Name="hejhej", Desc="sadsd"}
-            }
-            ;
-            return View(apps);
+ 
+            
+            return View(Repo.apps);
         }
 
-                
+
         public ActionResult PostApp()
         {
-
             return View();
         }
-        
-        [HttpPost]
-        public ActionResult PostApp0(App app)
-        {
 
-            return View();
+        [HttpPost]
+        public ActionResult PostApp(App app)
+        {
+            repo.Add(new App { AppId = app.AppId, Name = app.Name, Desc = app.Desc });
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
