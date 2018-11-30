@@ -16,7 +16,7 @@ namespace MVC.Controllers
         {
             List<App> apps = new List<App>()
             {
-                new App {AppId=1, Name="MPCK", Desc="hej"},
+                new App {AppId=1, Name="xv", Desc="hej"},
                 new App {AppId=2, Name="hejhej", Desc="sadsd"}
             }
             ;
