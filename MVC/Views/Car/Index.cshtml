@@ -1,0 +1,24 @@
+﻿@using MVC.Models
+@model List<Car>
+
+@{
+    ViewBag.Title = "GetCars";
+}
+
+<h2>Cars</h2>
+
+
+    @foreach (var car in @Model)
+    {
+        <div class="car-prop">
+            <p>@car.CarId</p>
+            <p>@car.Name</p>
+            <p>@car.Color</p>
+            <p>@car.Image</p>
+            <p>@car.ModelYear</p>
+            <p>@car.Price</p>
+        </div>
+    }
+
+
+

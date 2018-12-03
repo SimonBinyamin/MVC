@@ -1,4 +1,4 @@
-﻿@model MVC.Models.App
+﻿@model MVC.Models.Car
 
 @{
     ViewBag.Title = "Create";
@@ -9,13 +9,13 @@
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
-        <h4>Employees</h4>
+        <h4>Submit a Car</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(x => x.AppId, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(x => x.CarId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(x => x.AppId, new { @class = "form-control" })
+                @Html.TextBoxFor(x => x.CarId, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
@@ -25,14 +25,14 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(x => x.Desc, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(x => x.ModelYear, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(x => x.Desc, new { @class = "form-control" })
+                @Html.TextBoxFor(x => x.ModelYear, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" formaction=@Url.Action("PostApp") class="btn btn-default" />
+                <input type="submit" value="Create" formaction=@Url.Action("PostCar") class="btn btn-default" />
             </div>
         </div>
     </div>

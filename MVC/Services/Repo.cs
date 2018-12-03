@@ -9,10 +9,10 @@ namespace MVC.Services
 
     public class Repo
     {
-        public static List<App> apps = new List<App>();
-        public void Add(App app)
+        public static List<Car> cars = new List<Car>();
+        public void Add(Car car)
         {
-            apps.Add(app);
+            cars.Add(car);
         }
     }
 }
