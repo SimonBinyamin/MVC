@@ -13,23 +13,34 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(x => x.CarId, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(x => x.CarId, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="form-group">
             @Html.LabelFor(x => x.Name, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
             </div>
         </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Color, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Color, new { @class = "form-control" })
+            </div>
+        </div>
+
+
         <div class="form-group">
             @Html.LabelFor(x => x.ModelYear, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBoxFor(x => x.ModelYear, new { @class = "form-control" })
             </div>
         </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Price, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" formaction=@Url.Action("PostCar") class="btn btn-default" />
