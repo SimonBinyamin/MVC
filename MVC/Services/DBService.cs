@@ -42,7 +42,14 @@ namespace MVC.Services
                     AtKeys += "@" + item.Key + ",";
                 }
 
-                using (var cmd = new SqlCommand("INSERT INTO " + table + "(" + keys.TrimEnd(',') + ") VALUES(" + AtKeys.TrimEnd(',') + ")", connection))
+                string queryStr = "INSERT INTO " + table 
+                                                 + "(" 
+                                                 + keys.TrimEnd(',') 
+                                                 + ") VALUES(" 
+                                                 + AtKeys.TrimEnd(',') 
+                                                 + ")";
+
+                using (var cmd = new SqlCommand(queryStr, connection))
                 {
                     foreach (var item in mappingService.MapObject(obj))
                     {
