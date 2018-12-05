@@ -11,12 +11,11 @@
     @foreach (var car in @Model)
     {
         <div class="car-prop">
-            <p>@car.CarId</p>
             <p>@car.Name</p>
             <p>@car.Color</p>
-            <p>@car.Image</p>
             <p>@car.ModelYear</p>
             <p>@car.Price</p>
+            <img src="data:image;base64,@System.Convert.ToBase64String(car.Image)" width="80" height="80" /> 
         </div>
     }
 

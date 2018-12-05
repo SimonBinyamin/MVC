@@ -6,7 +6,8 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Image", null, FormMethod.Post,
+                                                      new { enctype = "multipart/form-data" }))
 {
     <div class="form-horizontal">
         <h4>Submit a Car</h4>
@@ -42,9 +43,16 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" formaction=@Url.Action("PostCar") class="btn btn-default" />
+            @Html.LabelFor(x => x.Image)
+
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.FileBase, new { type = "file" })
+            </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" formaction=@Url.Action("PostCar") class="btn btn-default" />
+                </div>
             </div>
         </div>
-    </div>
 }

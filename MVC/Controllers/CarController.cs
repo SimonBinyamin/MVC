@@ -7,6 +7,7 @@ namespace MVC.Controllers
     public class CarController : Controller
     {
         DBService<Car> dBService = new DBService<Car>();
+
         
         public ActionResult Index()
         {
@@ -22,7 +23,7 @@ namespace MVC.Controllers
         [HttpPost]
         public ActionResult PostCar(Car car)
         {
-
+          
             dBService.PostData("Car3", car);
           
             return RedirectToAction("Index");

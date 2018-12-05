@@ -152,6 +152,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DBService.cs" />
     <Compile Include="Services\MappingService.cs" />
+    <Compile Include="Services\MethodsService.cs" />
     <Compile Include="Services\Repo.cs" />
   </ItemGroup>
   <ItemGroup>
