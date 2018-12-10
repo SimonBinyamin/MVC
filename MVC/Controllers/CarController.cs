@@ -25,10 +25,18 @@ namespace MVC.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public ActionResult Delete(Car car)
+        [HttpGet]
+        public ActionResult Delete(int carId)
         {
-            return View();
+            dBService.Delete("Car3", "CarId", carId);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Put(int carId)
+        {
+            //  dBService.Delete("Car3", "CarId", carId);
+            return RedirectToAction("Index");
         }
     }
 }

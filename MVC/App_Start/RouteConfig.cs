@@ -15,13 +15,6 @@ namespace MVC
 
 
             routes.MapRoute(
-            "PostApp0",
-            "App/PostApp",
-            new { controller = "App", action = "PostApp"}
-            );
-
-
-            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }

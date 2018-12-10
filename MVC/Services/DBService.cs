@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System;
 
 namespace MVC.Services
 {
-    public class DBService<T>
+    public class DBService<T> : IEditData
     {
         string connStr = ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString;
-        public List<T> GetData (string table)
+
+        public List<T> GetData(string table)
         {
             List<T> Ts = new List<T>();
             using (SqlConnection con = new SqlConnection(connStr))
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM "+table, con);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM " + table, con);
                 con.Open();
                 DataTable dataTable = new DataTable();
                 dataTable.Load(cmd.ExecuteReader());
@@ -25,11 +27,39 @@ namespace MVC.Services
             return Ts;
         }
 
+        internal void Delete(string table, string primeryKey, int carId)
+        {
+            string q = "DELETE FROM "
+                + table
+                + " WHERE "
+                + primeryKey
+                + "='"
+                + carId
+                + "'";
 
-        public void PostData (string table, T obj)
+            ExecuteQuery(q);
+
+        }
+
+
+        public void Put(string table, string primeryKey, int carId)
+        {
+
+            string q = "DELETE FROM "
+                + table
+                + " WHERE "
+                + primeryKey
+                + "='"
+                + carId
+                + "'";
+
+            ExecuteQuery(q);
+
+        }
+        public void PostData(string table, T obj)
         {
             MappingService<T> mappingService = new MappingService<T>();
-            
+
             using (var connection = new SqlConnection(connStr))
             {
                 connection.Open();
@@ -42,11 +72,11 @@ namespace MVC.Services
                     AtKeys += "@" + item.Key + ",";
                 }
 
-                string queryStr = "INSERT INTO " + table 
-                                                 + "(" 
-                                                 + keys.TrimEnd(',') 
-                                                 + ") VALUES(" 
-                                                 + AtKeys.TrimEnd(',') 
+                string queryStr = "INSERT INTO " + table
+                                                 + "("
+                                                 + keys.TrimEnd(',')
+                                                 + ") VALUES("
+                                                 + AtKeys.TrimEnd(',')
                                                  + ")";
 
                 using (var cmd = new SqlCommand(queryStr, connection))
@@ -59,5 +89,20 @@ namespace MVC.Services
                 }
             }
         }
+
+        public void ExecuteQuery(string q)
+        {
+            using (var connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                using (var cmd = new SqlCommand(q, connection))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+        }
+
+
     }
 }
