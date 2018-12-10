@@ -1,0 +1,64 @@
+﻿@model MVC.Models.Car
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Put Car</h2>
+
+@using (Html.BeginForm("Create", "Image", null, FormMethod.Post,
+                                                                  new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        <h4>Submit a Car</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(x => x.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Color, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Color, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.ModelYear, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.ModelYear, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Price, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Image)
+
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.FileBase, new { type = "file" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <img src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" width="80" height="80" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="PutCar" formaction=@Url.Action("Put", "Car", Model.CarId) class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

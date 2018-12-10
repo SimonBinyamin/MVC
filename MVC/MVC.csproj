@@ -198,6 +198,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Car\Index.cshtml" />
     <Content Include="Views\Car\PostCar.cshtml" />
+    <Content Include="Views\Car\PutCar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

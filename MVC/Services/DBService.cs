@@ -9,8 +9,61 @@ namespace MVC.Services
 {
     public class DBService<T> : IEditData
     {
+        public enum Req
+        {
+            Put,
+            Post
+        }
+
         string connStr = ConfigurationManager.ConnectionStrings["SQLConn"].ConnectionString;
 
+
+        public List<Object> GetSingleData(string table, string primeryKey, int id)
+        {
+            List<Object> ListO = new List<object>();
+
+            string q = "SELECT * FROM "
+            + table
+            + " WHERE "
+            + primeryKey
+            + "="
+            + id
+            + "";
+
+            using (SqlConnection con = new SqlConnection(connStr))
+            {
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand(q, con);
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            int cou = reader.FieldCount;
+                            for (int i = 0; i < cou; i++)
+                            {
+                                var item = reader.GetValue(i);
+                                ListO.Add(item);
+                            }
+
+                            var idx = reader.GetInt32(0);
+                            var name = reader.GetString(1);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No rows found.");
+                    }
+                    reader.Close();
+                }
+            }
+
+            return ListO;
+        }
         public List<T> GetData(string table)
         {
             List<T> Ts = new List<T>();
@@ -56,39 +109,12 @@ namespace MVC.Services
             ExecuteQuery(q);
 
         }
-        public void PostData(string table, T obj)
+
+        public void PostData(string table, T obj, Req req)
         {
-            MappingService<T> mappingService = new MappingService<T>();
-
-            using (var connection = new SqlConnection(connStr))
-            {
-                connection.Open();
-                string keys = "";
-                string AtKeys = "";
-
-                foreach (var item in mappingService.MapObject(obj))
-                {
-                    keys += item.Key + ",";
-                    AtKeys += "@" + item.Key + ",";
-                }
-
-                string queryStr = "INSERT INTO " + table
-                                                 + "("
-                                                 + keys.TrimEnd(',')
-                                                 + ") VALUES("
-                                                 + AtKeys.TrimEnd(',')
-                                                 + ")";
-
-                using (var cmd = new SqlCommand(queryStr, connection))
-                {
-                    foreach (var item in mappingService.MapObject(obj))
-                    {
-                        cmd.Parameters.AddWithValue("@" + item.Key, item.Value);
-                    }
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            Update(table, obj, req);
         }
+
 
         public void ExecuteQuery(string q)
         {
@@ -103,6 +129,58 @@ namespace MVC.Services
 
         }
 
+        public void Update(string table, T obj, Req req)
+        {
 
+
+            MappingService<T> mappingService = new MappingService<T>();
+
+            using (var connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                string keys = "";
+                string AtKeys = "";
+                string queryStr = "";
+                foreach (var item in mappingService.MapObject(obj))
+                {
+                    keys += item.Key + ",";
+                    AtKeys += "@" + item.Key + ",";
+                }
+
+
+                switch (req)
+                {
+                    case Req.Post:
+                        queryStr = "INSERT INTO " + table
+                                 + "("
+                                 + keys.TrimEnd(',')
+                                 + ") VALUES("
+                                 + AtKeys.TrimEnd(',')
+                                 + ")";
+
+                        break;
+
+                    case Req.Put:
+                        queryStr = "INSERT INTO " + table
+                                + "("
+                                + keys.TrimEnd(',')
+                                + ") VALUES("
+                                + AtKeys.TrimEnd(',')
+                                + ")";
+
+                        break;
+                }
+
+
+                using (var cmd = new SqlCommand(queryStr, connection))
+                {
+                    foreach (var item in mappingService.MapObject(obj))
+                    {
+                        cmd.Parameters.AddWithValue("@" + item.Key, item.Value);
+                    }
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
