@@ -62,9 +62,9 @@ namespace MVC.Controllers
 
         }
 
-        public ActionResult Put(int carId)
+        public ActionResult Put(int carId, Car car)
         {
-            dBService.Put("Car3", "CarId", carId);
+            dBService.Put("Car3", car, DBService<Car>.Req.Put);
             return RedirectToAction("Index");
         }
     }

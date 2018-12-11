@@ -1,6 +1,7 @@
 ﻿using MVC.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,7 @@ namespace MVC.Models
         MethodsService methodsService = new MethodsService();
         private HttpPostedFileBase fileBase;
 
+        [Key]
         public int CarId { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }

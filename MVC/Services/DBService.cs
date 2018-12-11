@@ -4,10 +4,11 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System;
+using System.Linq;
 
 namespace MVC.Services
 {
-    public class DBService<T> : IEditData
+    public class DBService<T>
     {
         public enum Req
         {
@@ -89,25 +90,13 @@ namespace MVC.Services
                 + "='"
                 + carId
                 + "'";
-
             ExecuteQuery(q);
-
         }
 
 
-        public void Put(string table, string primeryKey, int carId)
+        public void Put(string table, T obj, Req req)
         {
-
-            string q = "DELETE FROM "
-                + table
-                + " WHERE "
-                + primeryKey
-                + "='"
-                + carId
-                + "'";
-
-            ExecuteQuery(q);
-
+            Update(table, obj, req);
         }
 
         public void PostData(string table, T obj, Req req)
@@ -115,6 +104,56 @@ namespace MVC.Services
             Update(table, obj, req);
         }
 
+        public void Update(string table, T obj, Req req)
+        {
+            MappingService<T> mappingService = new MappingService<T>();
+            using (var connection = new SqlConnection(connStr))
+            {
+                connection.Open();
+                string queryStr = "";
+
+                var keyList = from item in mappingService.MapObject(obj) select item.Key;
+                var valueList = from item in mappingService.MapObject(obj) select item.Value;
+                var atKeyList = from item in mappingService.MapObject(obj) select "@" + item.Key;
+
+                string keys = String.Join(",", keyList);
+                string atKeys = String.Join(",", atKeyList);
+
+                switch (req)
+                {
+                    case Req.Post:
+                        queryStr = "INSERT INTO " + table
+                                 + "("
+                                 + keys.TrimEnd(',')
+                                 + ") VALUES("
+                                 + atKeys.TrimEnd(',')
+                                 + ")";
+                        break;
+
+                    case Req.Put:
+                        string updatedStr = String.Join(",", (from b in mappingService.MapObject(obj) where b.Key!="CarId" select b.Key + "=@" + b.Key));
+                        queryStr = "UPDATE " + table
+                                + " SET "
+                                + updatedStr
+                                + " WHERE CarId='"
+                                + valueList.ToList()[0]
+                                + "'";
+                        break;
+                }
+
+                using (var cmd = new SqlCommand(queryStr, connection))
+                {
+                    foreach (var item in mappingService.MapObject(obj))
+                    {
+                        if (item.Key!="CarId")
+                        {
+                            cmd.Parameters.AddWithValue("@" + item.Key, item.Value);
+                        }
+                    }
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
         public void ExecuteQuery(string q)
         {
@@ -126,61 +165,7 @@ namespace MVC.Services
                     cmd.ExecuteNonQuery();
                 }
             }
-
         }
 
-        public void Update(string table, T obj, Req req)
-        {
-
-
-            MappingService<T> mappingService = new MappingService<T>();
-
-            using (var connection = new SqlConnection(connStr))
-            {
-                connection.Open();
-                string keys = "";
-                string AtKeys = "";
-                string queryStr = "";
-                foreach (var item in mappingService.MapObject(obj))
-                {
-                    keys += item.Key + ",";
-                    AtKeys += "@" + item.Key + ",";
-                }
-
-
-                switch (req)
-                {
-                    case Req.Post:
-                        queryStr = "INSERT INTO " + table
-                                 + "("
-                                 + keys.TrimEnd(',')
-                                 + ") VALUES("
-                                 + AtKeys.TrimEnd(',')
-                                 + ")";
-
-                        break;
-
-                    case Req.Put:
-                        queryStr = "INSERT INTO " + table
-                                + "("
-                                + keys.TrimEnd(',')
-                                + ") VALUES("
-                                + AtKeys.TrimEnd(',')
-                                + ")";
-
-                        break;
-                }
-
-
-                using (var cmd = new SqlCommand(queryStr, connection))
-                {
-                    foreach (var item in mappingService.MapObject(obj))
-                    {
-                        cmd.Parameters.AddWithValue("@" + item.Key, item.Value);
-                    }
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
     }
 }
