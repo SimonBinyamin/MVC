@@ -29,19 +29,19 @@ namespace MVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(int carId)
+        public ActionResult Delete(int id)
         {
-            dBService.Delete("Car3", "CarId", carId);
+            dBService.Delete("Car3", "Id", id);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public ActionResult PutCar(int carId)
+        public ActionResult PutCar(int id)
         {
 
-            var obList = dBService.GetSingleData("Car3", "CarId", carId);
+            var obList = dBService.GetSingleData("Car3", "Id", id);
 
-            int id = (int)obList[0];
+            int id2 = (int)obList[0];
             string name = (string)obList[1];
             string color = (string)obList[2];
             int modelYear = (int)obList[3];
@@ -49,7 +49,7 @@ namespace MVC.Controllers
             byte[] img = (byte[])obList[5];
 
             Car car = new Car() {
-                CarId = id,
+                Id = id2,
                 Name = name,
                 Color = color,
                 ModelYear = modelYear,
@@ -62,7 +62,7 @@ namespace MVC.Controllers
 
         }
 
-        public ActionResult Put(int carId, Car car)
+        public ActionResult Put(int id, Car car)
         {
             dBService.Put("Car3", car, DBService<Car>.Req.Put);
             return RedirectToAction("Index");

@@ -81,14 +81,14 @@ namespace MVC.Services
             return Ts;
         }
 
-        internal void Delete(string table, string primeryKey, int carId)
+        internal void Delete(string table, string primeryKey, int id)
         {
             string q = "DELETE FROM "
                 + table
                 + " WHERE "
                 + primeryKey
                 + "='"
-                + carId
+                + id
                 + "'";
             ExecuteQuery(q);
         }
@@ -116,6 +116,7 @@ namespace MVC.Services
                 var valueList = from item in mappingService.MapObject(obj) select item.Value;
                 var atKeyList = from item in mappingService.MapObject(obj) select "@" + item.Key;
 
+
                 string keys = String.Join(",", keyList);
                 string atKeys = String.Join(",", atKeyList);
 
@@ -131,11 +132,11 @@ namespace MVC.Services
                         break;
 
                     case Req.Put:
-                        string updatedStr = String.Join(",", (from b in mappingService.MapObject(obj) where b.Key!="CarId" select b.Key + "=@" + b.Key));
+                        string updatedStr = String.Join(",", (from b in mappingService.MapObject(obj) where b.Key!="Id" select b.Key + "=@" + b.Key));
                         queryStr = "UPDATE " + table
                                 + " SET "
                                 + updatedStr
-                                + " WHERE CarId='"
+                                + " WHERE Id='"
                                 + valueList.ToList()[0]
                                 + "'";
                         break;
@@ -145,7 +146,7 @@ namespace MVC.Services
                 {
                     foreach (var item in mappingService.MapObject(obj))
                     {
-                        if (item.Key!="CarId")
+                        if (item.Key!="Id")
                         {
                             cmd.Parameters.AddWithValue("@" + item.Key, item.Value);
                         }

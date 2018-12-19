@@ -16,20 +16,20 @@ namespace MVC
 
             routes.MapRoute(
             "Mod",
-            "Car/Put/{carId}",
+            "Car/Put/{id}",
             new { controller = "Car", action = "Put" }
             );
 
 
             routes.MapRoute(
             "ModCar",
-            "Car/PutCar/{carId}",
+            "Car/PutCar/{id}",
             new { controller = "Car", action = "PutCar" }
             );
 
             routes.MapRoute(
             "DeleteCar",
-            "Car/Delete/{carId}",
+            "Car/Delete/{id}",
             new { controller = "Car", action = "Delete"}
             );
 

@@ -16,8 +16,8 @@
             <p>@car.ModelYear</p>
             <p>@car.Price</p>
             <img src="data:image;base64,@System.Convert.ToBase64String(car.Image)" width="80" height="80" /> 
-            @Html.ActionLink("Delete Car", "Delete", "Car", new { carId = car.CarId },  null)
-            @Html.ActionLink("Edit Car", "PutCar", "Car", new { carId = car.CarId }, null)   
+            @Html.ActionLink("Delete Car", "Delete", "Car", new { id = car.Id },  null)
+            @Html.ActionLink("Edit Car", "PutCar", "Car", new { id = car.Id }, null)   
 
         </div>
     }

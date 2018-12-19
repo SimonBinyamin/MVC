@@ -8,9 +8,9 @@ using System.Web;
 
 namespace MVC.Models
 {
-   
-    public class Car: IVehicle
+    public class Truck : IVehicle
     {
+
         MethodsService methodsService = new MethodsService();
         private HttpPostedFileBase fileBase;
 
@@ -22,12 +22,14 @@ namespace MVC.Models
         public double Price { get; set; }
         public byte[] Image { get; set; }
         [NotMapped]
-        public HttpPostedFileBase FileBase {
-           get
+        public HttpPostedFileBase FileBase
+        {
+            get
             {
                 return fileBase;
-            } 
-            set {
+            }
+            set
+            {
                 Image = methodsService.FileBaseToByteImage(value);
                 fileBase = value;
             }
